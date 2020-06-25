@@ -1,0 +1,27 @@
+{
+	"name": "@xutl/defer",
+	"version": "1.0.1",
+	"description": "Deferred Promises",
+	"main": "src/index.js",
+	"scripts": {
+		"test": "xutltest"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/xutl-es/defer.git"
+	},
+	"keywords": [
+		"XtremelyUsefulToolLibraries",
+		"Defer"
+	],
+	"author": "XUTL <dev@xutl.es>",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/xutl-es/defer/issues"
+	},
+	"homepage": "https://xutl.es",
+	"devDependencies": {
+		"typescript": "^3.9.5",
+		"@xutl/defer": "~0.0.1 || ^1.0.0"
+	}
+}
