@@ -1,8 +1,4 @@
 name: npm test
-on: [push, pull_request]
-
-name: npm test
-
 on:
   push:
     branches:
@@ -10,10 +6,8 @@ on:
   pull_request:
     branches:
       - main
-
 jobs:
   npm-publish:
-    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
