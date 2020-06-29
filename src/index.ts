@@ -38,7 +38,8 @@ export function defer<T, TT = string>(timeout?: number | Number, tag?: TT, keepa
 			resolvable.reject(error);
 		}, +timeout);
 		const cancel = () => {
-			timer = (timer && clearTimeout(timer)) || null;
+			if (timer) clearTimeout(timer);
+			timer = null;
 		};
 		if (!keepalive) timer.unref();
 		resolvable.resolve = hookedResolve.bind(null, resolvable.resolve, cancel) as ResolveFunction<T>;

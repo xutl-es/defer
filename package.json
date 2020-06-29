@@ -23,7 +23,8 @@
 	},
 	"homepage": "https://xutl.es",
 	"devDependencies": {
-		"typescript": "^3.9.5",
-		"@xutl/test": "^1.0.0"
+		"@types/node": "^14.0.14",
+		"@xutl/test": "^1.0.0",
+		"typescript": "^3.9.5"
 	}
 }
