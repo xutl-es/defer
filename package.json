@@ -1,10 +1,12 @@
 {
 	"name": "@xutl/defer",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Deferred Promises",
 	"main": "src/index.js",
 	"scripts": {
-		"test": "xutltest"
+		"test": "xutltest",
+		"build": "tsc",
+		"prepublishOnly": "npm run build"
 	},
 	"repository": {
 		"type": "git",
@@ -22,6 +24,6 @@
 	"homepage": "https://xutl.es",
 	"devDependencies": {
 		"typescript": "^3.9.5",
-		"@xutl/defer": "~0.0.1 || ^1.0.0"
+		"@xutl/test": "^1.0.0"
 	}
 }
