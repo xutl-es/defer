@@ -1,6 +1,6 @@
 {
 	"name": "@xutl/defer",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "Deferred Promises",
 	"main": "src/index.js",
 	"scripts": {
