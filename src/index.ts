@@ -114,3 +114,12 @@ export function timeout<T>(future: Future<T>, timeout: number | Number, keepaliv
 	}
 	return deferred;
 }
+
+const Default = Object.freeze({
+	defer,
+	sleep,
+	promise,
+	promisify,
+	timeout,
+});
+export default Default;
