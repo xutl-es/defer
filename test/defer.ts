@@ -1,5 +1,6 @@
 import { describe, it, before } from '@xutl/test';
 import assert from 'assert';
+import path from 'path';
 
 import { defer, Deferred } from '../';
 
@@ -75,7 +76,7 @@ describe('defer', () => {
 			assert.equal(stackLines[0], 'Error: timeout');
 			assert(stackLines[1].indexOf('at Object.defer') > -1);
 			assert(stackLines[2].indexOf('at TestCase.run') > -1);
-			assert(stackLines[2].indexOf('test\\defer.js') > -1);
+			assert(stackLines[2].indexOf(path.resolve('test\\defer.js')) > -1);
 		}
 	});
 });
