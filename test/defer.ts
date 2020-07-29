@@ -71,12 +71,12 @@ describe('defer', () => {
 			await deferred;
 			assert(false)
 		} catch(error) {
+			console.log('the stack: ', error.stack);
 			assert.equal(error.code, 'ETIMEDOUT');
 			assert(error.stack.indexOf('Error: timeout') > -1);
 			assert(error.stack.indexOf('at Object.defer') > -1);
 			assert(error.stack.indexOf('at TestCase.run') > -1);
 			assert(error.stack.indexOf(path.resolve('test\\defer.js')) > -1);
-			console.log('the stack: ', error.stack);
 		}
 	});
 });
