@@ -72,11 +72,11 @@ describe('defer', () => {
 			assert(false)
 		} catch(error) {
 			assert.equal(error.code, 'ETIMEDOUT');
-			const stackLines: string[] = error.stack.split('\n');
-			assert.equal(stackLines[0], 'Error: timeout');
-			assert(stackLines[1].indexOf('at Object.defer') > -1);
-			assert(stackLines[2].indexOf('at TestCase.run') > -1);
-			assert(stackLines[2].indexOf(path.resolve('test\\defer.js')) > -1);
+			assert(error.stack.indexOf('Error: timeout') > -1);
+			assert(error.stack.indexOf('at Object.defer') > -1);
+			assert(error.stack.indexOf('at TestCase.run') > -1);
+			assert(error.stack.indexOf(path.resolve('test\\defer.js')) > -1);
+			console.log('the stack: ', error.stack);
 		}
 	});
 });
