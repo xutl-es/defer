@@ -52,6 +52,7 @@ describe('defer', () => {
 			assert.equal(actual, expected);
 		}
 	});
+
 	it('deferred can timeout', async () => {
 		const deferred = defer<number>(50);
 		//setTimeout(() => deferred.resolve(Math.random()), 1000);
@@ -60,6 +61,21 @@ describe('defer', () => {
 			assert(false);
 		} catch (error) {
 			assert.equal(error.code, 'ETIMEDOUT');
+		}
+	});
+
+	it('deferred timeout should have this function in the stack', async () => {
+		const deferred = defer(50);
+		try {
+			await deferred;
+			assert(false)
+		} catch(error) {
+			assert.equal(error.code, 'ETIMEDOUT');
+			const stackLines: string[] = error.stack.split('\n');
+			assert.equal(stackLines[0], 'Error: timeout');
+			assert(stackLines[1].indexOf('at Object.defer') > -1);
+			assert(stackLines[2].indexOf('at TestCase.run') > -1);
+			assert(stackLines[2].indexOf('test\\defer.js') > -1);
 		}
 	});
 });

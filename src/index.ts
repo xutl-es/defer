@@ -28,14 +28,14 @@ export function defer<T, TT = string>(timeout?: number | Number, tag?: TT, keepa
 		futureResolvable.reject = reject;
 	}) as Partial<Deferred<T, TT>>;
 	const resolvable: Resolvable<T> = futureResolvable as Resolvable<T>;
-
+	
 	if (timeout) {
+		const timeoutError = new Error('timeout');
+		// @ts-ignore
+		timeoutError.code = 'ETIMEDOUT';
 		let timer: NodeJS.Timeout | null = setTimeout(() => {
 			timer = null;
-			const error = new Error('timeout');
-			// @ts-ignore
-			error.code = 'ETIMEDOUT';
-			resolvable.reject(error);
+			resolvable.reject(timeoutError);
 		}, +timeout);
 		const cancel = () => {
 			if (timer) clearTimeout(timer);
