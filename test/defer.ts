@@ -1,7 +1,7 @@
 import { describe, it, before } from '@xutl/test';
 import assert from 'assert';
 
-import { defer, Deferred } from '../';
+import { defer, Deferred, sleep } from '../';
 
 describe('defer', () => {
 	let deferred: Deferred<number>;
@@ -59,7 +59,24 @@ describe('defer', () => {
 			await deferred;
 			assert(false);
 		} catch (error) {
+			if (!isErrorCode(error)) throw error;
 			assert.equal(error.code, 'ETIMEDOUT');
 		}
 	});
+	it('deferred with timout can resolve without timeout', async () => {
+		const deferred = defer<number>(50);
+		const backup = defer<number>();
+		process.on('uncaughtException', backup.callback);
+		process.on('unhandledRejection', backup.callback);
+		deferred.resolve(1);
+		await deferred;
+		await sleep(100);
+		backup.resolve(2);
+		assert.equal(await backup, 2);
+	});
 });
+
+function isErrorCode(e: any): e is Error & { code: string } {
+	if (!e || !(e as Error).message || !(e as { code: string }).code) return false;
+	return true;
+}

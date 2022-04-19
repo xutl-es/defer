@@ -24,8 +24,12 @@ export interface Deferred<T, TT = string> extends Promise<T>, Resolvable<T>, Tag
 export function defer<T, TT = string>(timeout?: number | Number, tag?: TT, keepalive?: boolean): Deferred<T, TT> {
 	const futureResolvable: Partial<Resolvable<T>> = {};
 	const promise = new Promise<T>((resolve, reject) => {
-		futureResolvable.resolve = resolve;
-		futureResolvable.reject = reject;
+		futureResolvable.resolve = (v: T) => {
+			resolve(v);
+		};
+		futureResolvable.reject = (e: Error) => {
+			reject(e);
+		};
 	}) as Partial<Deferred<T, TT>>;
 	const resolvable: Resolvable<T> = futureResolvable as Resolvable<T>;
 
@@ -38,7 +42,9 @@ export function defer<T, TT = string>(timeout?: number | Number, tag?: TT, keepa
 			resolvable.reject(error);
 		}, +timeout);
 		const cancel = () => {
-			if (timer) clearTimeout(timer);
+			if (timer) {
+				clearTimeout(timer);
+			}
 			timer = null;
 		};
 		if (!keepalive) timer.unref();
@@ -58,7 +64,7 @@ export function defer<T, TT = string>(timeout?: number | Number, tag?: TT, keepa
 function resolvableCallback(resolve: ResolveFunction<any>, reject: RejectFunction, error?: Error, value?: any) {
 	if (error) {
 		reject(error);
-	} else if (value) {
+	} else if (value !== undefined) {
 		resolve(value);
 	} else {
 		reject(new Error('invalid invocation'));
@@ -90,7 +96,7 @@ export async function promise<T>(func: Callable, ...args: any[]): Promise<T> {
 	try {
 		func(...args, deferred.callback);
 	} catch (err) {
-		deferred.reject(err);
+		deferred.reject(err as Error);
 	}
 	return deferred;
 }
