@@ -79,10 +79,12 @@ function hookedReject(reject: RejectFunction, hook: () => void, reason: Error) {
 	reject(reason);
 }
 
-export function sleep(ms: number | Number): Promise<void> {
-	return new Promise((resolve) => {
-		setTimeout(resolve, +ms);
+type Timeout = ReturnType<typeof setTimeout>;
+export function sleep(ms: number | Number): Promise<void> & Timeout {
+	const promise = new Promise<void>((resolve) => {
+		Object.assign(promise, setTimeout(resolve, +ms));
 	});
+	return promise as Promise<void> & Timeout;
 }
 
 export interface Callable {

@@ -74,6 +74,11 @@ describe('defer', () => {
 		backup.resolve(2);
 		assert.equal(await backup, 2);
 	});
+	it('sleep can unref', () => {
+		const p = sleep(1000);
+		p.unref();
+		assert(!p.hasRef());
+	});
 });
 
 function isErrorCode(e: any): e is Error & { code: string } {
